@@ -158,8 +158,9 @@
                 <div class="card">
     <div class="card-body">
         <h5 class="card-title">Form Pertanyaan</h5>
-
+        
         <form action="{{ route('question.store') }}" method="POST">
+            @csrf
             <div class="mb-3">
                 <label for="nama" class="form-label">Nama</label>
                 <input type="text" class="form-control" name="nama">
