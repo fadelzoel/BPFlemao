@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tambah Project - Admin</title>
+    <title>Edit Project - Admin</title>
 
     <style>
         :root {
@@ -76,7 +76,7 @@
         input[type="file"]::file-selector-button:hover { background: #363c4a; }
 
         .preview {
-            display: none;
+            display: block;
             width: 100%;
             max-height: 240px;
             margin-top: 12px;
@@ -122,7 +122,7 @@
 <body>
 
     <div class="form-container">
-        <h1>Tambah Project</h1>
+        <h1>Edit Project</h1>
 
         @if($errors->any())
             <div class="error-box" role="alert">
@@ -132,47 +132,50 @@
             </div>
         @endif
 
-        <form action="{{ route('portofolio.store') }}" method="POST" enctype="multipart/form-data">
+        <!-- Form action goes to UPDATE, and method is PUT -->
+        <form action="{{ route('portofolio.update', $portofolio->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             
             <div class="form-group">
                 <label for="title">Project Title</label>
-                <input type="text" id="title" name="title" value="{{ old('title') }}" required>
+                <input type="text" id="title" name="title" value="{{ old('title', $portofolio->title) }}" required>
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" required>{{ old('description') }}</textarea>
+                <textarea id="description" name="description" required>{{ old('description', $portofolio->description) }}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="link">Project Link (Optional)</label>
-                <input type="url" id="link" name="link" value="{{ old('link', $portofolio->link ?? '') }}" placeholder="https://github.com/...">
+                <input type="url" id="link" name="link" value="{{ old('link', $portofolio->link) }}" placeholder="https://github.com/...">
             </div>
 
             <div class="form-group">
-                <label for="image">Image (Wajib diisi)</label>
-                <input type="file" id="image" name="image" accept="image/*" required>
-                <img id="preview" class="preview" alt="Image preview">
+                <label for="image">Image (Biarkan kosong jika tidak ingin diganti)</label>
+                <input type="file" id="image" name="image" accept="image/*">
+                
+                <!-- Show the current image from the database -->
+                <img id="preview" class="preview" src="{{ asset('storage/' . $portofolio->image) }}" alt="Current Image">
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Simpan Project</button>
+                <button type="submit" class="btn btn-primary">Update Project</button>
                 <a href="{{ route('portofolio.admin') }}" class="btn btn-secondary">Batal</a>
             </div>
         </form>
     </div>
 
     <script>
-        // Show a preview of the chosen image (display only, does not affect the upload)
+        // Show a preview of the newly chosen image
         (function () {
             var input = document.getElementById('image');
             var preview = document.getElementById('preview');
             input.addEventListener('change', function () {
                 var file = input.files && input.files[0];
-                if (!file) { preview.style.display = 'none'; return; }
+                if (!file) return;
                 preview.src = URL.createObjectURL(file);
-                preview.style.display = 'block';
             });
         })();
     </script>
