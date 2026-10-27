@@ -100,7 +100,7 @@
                 </li>
                 <!-- Tambahkan blok kode ini -->
                 <li class="nav-item  active ">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('pelanggan.index') }}" class="nav-link">
                         <span class="sidebar-icon">
                             <svg class="icon icon-xs me-2" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"></path>
@@ -278,7 +278,7 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('pelanggan.index') }}">Pelanggan</a></li>
                 </ol>
             </nav>
             <div class="d-flex justify-content-between w-100 flex-wrap">
@@ -287,51 +287,61 @@
                     <p class="mb-0">List data seluruh pelanggan</p>
                 </div>
                 <div>
-                    <a href="" class="btn btn-success text-white"><i class="far fa-question-circle me-1"></i> Tambah Pelanggan</a>
+                    <a href="{{ route('pelanggan.create') }}" class="btn btn-success text-white"><i class="fas fa-plus me-1"></i> Tambah Pelanggan</a>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-12 mb-4">
-                <div class="card border-0 shadow mb-4">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="table-pelanggan" class="table table-centered table-nowrap mb-0 rounded">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="border-0">First Name</th>
-                                        <th class="border-0">Last Name</th>
-                                        <th class="border-0">Birthday</th>
-                                        <th class="border-0">Gender</th>
-                                        <th class="border-0">Email</th>
-                                        <th class="border-0">Phone</th>
-                                        <th class="border-0 rounded-end">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($dataPelanggan as $pelanggan)
-                                    <tr>
-                                        <td><a href="#" class="text-primary fw-bold">{{ $pelanggan->first_name }}</a></td>
-                                        <td>{{ $pelanggan->last_name }}</td>
-                                        <td>{{ $pelanggan->birthday }}</td>
-                                        <td>{{ $pelanggan->gender }}</td>
-                                        <td>{{ $pelanggan->email }}</td>
-                                        <td>{{ $pelanggan->phone }}</td>
-                                        <td>
-                                            <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                            <a href="#" class="btn btn-sm btn-danger">Delete</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-                        </div>
+    <div class="col-12 mb-4">
+        <div class="card border-0 shadow mb-4">
+            <div class="card-body">
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
+                @endif
+                <div class="table-responsive">
+                    <table id="table-pelanggan" class="table table-centered table-nowrap mb-0 rounded">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="border-0">First Name</th>
+                                <th class="border-0">Last Name</th>
+                                <th class="border-0">Birthday</th>
+                                <th class="border-0">Gender</th>
+                                <th class="border-0">Email</th>
+                                <th class="border-0">Phone</th>
+                                <th class="border-0 rounded-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($dataPelanggan as $pelanggan)
+                            <tr>
+                                <td><a href="#" class="text-primary fw-bold">{{ $pelanggan->first_name }}</a></td>
+                                <td>{{ $pelanggan->last_name }}</td>
+                                <td>{{ $pelanggan->birthday }}</td>
+                                <td>{{ $pelanggan->gender }}</td>
+                                <td>{{ $pelanggan->email }}</td>
+                                <td>{{ $pelanggan->phone }}</td>
+                                <td>
+                                    <!-- Using pelanggan_id -->
+                                    <a href="{{ route('pelanggan.edit', $pelanggan->pelanggan_id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                    <form action="{{ route('pelanggan.destroy', $pelanggan->pelanggan_id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
         <footer class="bg-white rounded shadow p-5 mb-4 mt-4">
             <div class="row">

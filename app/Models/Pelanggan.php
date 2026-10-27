@@ -8,6 +8,7 @@ class Pelanggan extends Model
 {
     protected $table = 'pelanggan';
     protected $primaryKey = 'pelanggan_id';
+    
     protected $fillable = [
         'first_name',
         'last_name',
@@ -16,4 +17,10 @@ class Pelanggan extends Model
         'email',
         'phone',
     ];
+
+    // Wajib ditambahkan agar route edit/delete tidak error
+    public function getRouteKeyName()
+    {
+        return 'pelanggan_id';
+    }
 }
