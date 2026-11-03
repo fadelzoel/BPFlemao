@@ -260,29 +260,26 @@
 
                 @if(count($portofolios) > 0)
                     @foreach($portofolios as $item)
-                    <div class="column entry">
-                        <a href="{{ asset('storage/' . $item->image) }}" class="entry__link glightbox" data-glightbox="title: {{ $item->title }}; description: .entry__desc-{{ $item->id }}">
-                            <div class="entry__thumb">
-                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}">
-                            </div>
-                            <div class="entry__info">
-                                <h4 class="entry__title">{{ $item->title }}</h4>
-                                <div class="entry__cat">Project</div>
-                            </div>
-                        </a>
+<div class="column entry">
+    <a href="{{ asset('storage/' . $item->image) }}" class="entry__link glightbox" data-glightbox="title: {{ $item->title }}; description: .entry__desc-{{ $item->id }}">
+        <div class="entry__thumb">
+            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}">
+        </div>
+        <div class="entry__info">
+            <h4 class="entry__title">{{ $item->title }}</h4>
+            <div class="entry__cat">Project</div>
+        </div>
+    </a>
 
-                        <div class="glightbox-desc entry__desc-{{ $item->id }}">
-    <p>
-        {{ $item->description }}
-        
+    <!-- Lightbox Description -->
+    <div class="glightbox-desc entry__desc-{{ $item->id }}">
+        <p>{{ $item->description }}</p>
         @if($item->link)
-            <br><br>
-            <a href="{{ $item->link }}" target="_blank" style="color: #00a650; text-decoration: underline; font-weight: bold;">Visit Project &rarr;</a>
+            <a href="{{ $item->link }}" target="_blank" style="color: #00a650; font-weight: bold; text-decoration: underline;">Visit Project &rarr;</a>
         @endif
-    </p>
-</div>
-                    </div> <!-- entry -->
-                    @endforeach
+    </div>
+</div> <!-- entry -->
+@endforeach
                 @else
                     <div class="column xl-12 fz-empty">
                         <p>No projects yet. Check back soon.</p>
