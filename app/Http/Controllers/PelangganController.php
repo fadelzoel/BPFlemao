@@ -7,11 +7,19 @@ use App\Models\Pelanggan;
 
 class PelangganController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['dataPelanggan'] = Pelanggan::all();
+        
+        $filterableColumns=['gender'];
+        $searchableColumns = ['first_name','last_name','email']; //sesuai kolom Pelanggan
+        $data['dataPelanggan'] = Pelanggan::filter($request, $filterableColumns)
+                                    -> search($request,$searchableColumns)
+                                    -> paginate(5);
+                                    
         return view('admin.pelanggan.index', $data);
     }
+
+    
 
     public function create()
     {
