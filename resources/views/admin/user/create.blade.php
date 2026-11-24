@@ -76,6 +76,20 @@
                             @enderror
                         </div>
 
+                        {{-- Role --}}
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select id="role" name="role" class="form-select @error('role') is-invalid @enderror" required>
+                                <option value="">-- Pilih Role --</option>
+                                <option value="superadmin" {{ old('role') == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
+                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                            </select>
+                            @error('role')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         {{-- Password --}}
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>

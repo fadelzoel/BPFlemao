@@ -132,7 +132,7 @@
                                     <img class="avatar rounded-circle" alt="Image placeholder"
                                         src="{{ asset('assets-admin/img/team/profile-picture-3.jpg') }}">
                                     <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                        <span class="mb-0 font-small fw-bold text-gray-900">Bonnie Green</span>
+                                        <span class="mb-0 font-small fw-bold text-gray-900">{{Auth::user()->name}}</span>
                                     </div>
                                 </div>
                             </a>
@@ -159,15 +159,18 @@
                                 </a>
                                 <div role="separator" class="dropdown-divider my-1"></div>
                                 <!-- Logout link -->
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <form method="POST" action="{{ route('auth.logout') }}">
+                                    @csrf
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
                                     <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
                                         </path>
                                     </svg>
-                                    Logout
-                                </a>
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                    </a>
+                                </form>
                             </div>
                         </li>
                         <!-- END: User profile dropdown -->

@@ -55,6 +55,11 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
+                                        <span class="badge bg-{{ $user->role === 'superadmin' ? 'danger' : ($user->role === 'admin' ? 'primary' : 'secondary') }}">
+                                            {{ ucfirst($user->role) }}
+                                        </span>
+                                    </td>
+                                    <td>
                                         <a href="{{ route('user.edit', $user->id) }}"
                                            class="btn btn-sm btn-primary">Edit</a>
                                         <form action="{{ route('user.destroy', $user->id) }}"
